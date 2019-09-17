@@ -7,6 +7,9 @@
 - name: set locale
   command: localectl set-locale LANG=C.UTF-8
 
+- name: set timezone
+  command: timedatectl set-timezone UTC
+
 - name: allow users in sudo group to use sudo command without password
   lineinfile:
     path: /etc/sudoers
