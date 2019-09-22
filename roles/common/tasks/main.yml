@@ -4,6 +4,15 @@
     update_cache: yes
     cache_valid_time: 3600
 
+- name: install packages
+  apt:
+    name: '{{ item }}'
+  with_items:
+    - avahi-daemon
+    - vim
+    - htop
+    - git
+
 - name: set locale
   command: localectl set-locale LANG=C.UTF-8
 
@@ -17,15 +26,21 @@
     line: '%sudo  ALL=(ALL:ALL) NOPASSWD: ALL'
     validate: /usr/sbin/visudo -cf %s
 
-- name: install avahi-daemon
-  apt:
-    name: '{{ item }}'
-  with_items:
-    - avahi-daemon
-    - vim
-
-- name: download .vimrc
+- name: create workspace
   become_user: '{{ username }}'
-  get_url:
-    url: https://raw.githubusercontent.com/arosh/dotfiles/master/.vimrc
-    dest: /home/{{ username }}/.vimrc
+  file:
+    path: /home/{{ username }}/workspace
+    state: directory
+
+- name: clone arosh/dotfiles
+  become_user: '{{ username }}'
+  git:
+    repo: https://github.com/arosh/dotfiles.git
+    dest: /home/{{ username }}/workspace/dotfiles
+
+- name: link .vimrc
+  become_user: '{{ username }}'
+  file:
+    path: /home/{{ username }}/.vimrc
+    state: link
+    src: /home/{{ username }}/workspace/dotfiles/.vimrc.tiny
