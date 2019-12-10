@@ -1,7 +1,7 @@
 ## Configuration
 
-You have to describe `hosts` as follows.
+You have to prepare `hosts` file as follows.
 
-```
-${ip_address} username=${username}
+```text
+${IP} username=${USERNAME}
 ```
