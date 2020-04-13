@@ -17,7 +17,7 @@
 
 - name: set locale
   become: yes
-  command: localectl set-locale LANG=C.UTF-8
+  command: localectl set-locale LANG=en_US.UTF-8
 
 - name: set timezone
   become: yes
