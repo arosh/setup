@@ -7,6 +7,9 @@ dry-run: syntax-check
 ping:
 	ansible all --ask-pass --ask-become-pass -i hosts -m ping
 
+get-facts:
+	ansible all --ask-pass -i hosts -m setup
+
 syntax-check:
 	ansible-playbook --syntax-check -i hosts site.yml
 

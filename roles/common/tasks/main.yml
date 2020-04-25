@@ -8,12 +8,24 @@
 - name: install packages
   become: yes
   apt:
-    name: '{{ item }}'
-  with_items:
-    - avahi-daemon
-    - vim
-    - htop
-    - git
+    name:
+      - avahi-daemon
+      - vim
+      - htop
+      - git
+
+- name: check if the host is running on Hyper-V
+  command: /usr/bin/systemd-detect-virt
+  register: virt
+  changed_when: false
+
+- debug: var=virt.stdout
+
+# https://docs.microsoft.com/ja-jp/windows-server/virtualization/hyper-v/supported-ubuntu-virtual-machines-on-hyper-v
+- name: install linux-azure on Hyper-V
+  apt:
+    name: 'linux-azure'
+  when: virt.stdout == 'microsoft'
 
 - name: set locale
   become: yes
