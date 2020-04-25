@@ -14,6 +14,17 @@
       - htop
       - git
 
+- name: uninstall packages
+  become: yes
+  apt:
+    name:
+      - snapd
+      - nano
+      - unattended-upgrades
+    state: absent
+    purge: yes
+    autoremove: yes
+
 - name: check if the host is running on Hyper-V
   command: /usr/bin/systemd-detect-virt
   register: virt
@@ -23,6 +34,7 @@
 
 # https://docs.microsoft.com/ja-jp/windows-server/virtualization/hyper-v/supported-ubuntu-virtual-machines-on-hyper-v
 - name: install linux-azure on Hyper-V
+  become: yes
   apt:
     name: 'linux-azure'
   when: virt.stdout == 'microsoft'
