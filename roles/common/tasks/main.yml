@@ -28,6 +28,7 @@
 - name: check if the host is running on Hyper-V
   command: /usr/bin/systemd-detect-virt
   register: virt
+  check_mode: no
   changed_when: false
 
 - debug: var=virt.stdout
