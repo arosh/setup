@@ -1,3 +1,12 @@
+- name: replace /etc/apt/sources.list
+  become: yes
+  copy:
+    dest: /etc/apt/sources.list
+    content: |
+      deb http://ftp.iij.ad.jp/pub/linux/ubuntu/archive/ focal main restricted universe
+      deb http://ftp.iij.ad.jp/pub/linux/ubuntu/archive/ focal-updates main restricted universe
+      deb http://ftp.iij.ad.jp/pub/linux/ubuntu/archive/ focal-security main restricted universe
+
 - name: upgrade all packages
   become: yes
   apt:
