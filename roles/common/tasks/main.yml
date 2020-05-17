@@ -3,14 +3,13 @@
   copy:
     dest: /etc/apt/sources.list
     content: |
-      deb http://ftp.iij.ad.jp/pub/linux/ubuntu/archive/ focal main restricted universe
-      deb http://ftp.iij.ad.jp/pub/linux/ubuntu/archive/ focal-updates main restricted universe
-      deb http://ftp.iij.ad.jp/pub/linux/ubuntu/archive/ focal-security main restricted universe
+      deb http://ftp.iij.ad.jp/pub/linux/ubuntu/archive/ {{ ansible_lsb.codename }} main restricted universe
+      deb http://ftp.iij.ad.jp/pub/linux/ubuntu/archive/ {{ ansible_lsb.codename }}-updates main restricted universe
+      deb http://ftp.iij.ad.jp/pub/linux/ubuntu/archive/ {{ ansible_lsb.codename }}-security main restricted universe
 
-- name: upgrade all packages
+- name: update APT cache
   become: yes
   apt:
-    upgrade: dist
     update_cache: yes
 
 - name: install packages
@@ -21,17 +20,6 @@
       - vim
       - htop
       - git
-
-- name: uninstall packages
-  become: yes
-  apt:
-    name:
-      - snapd
-      - nano
-      - unattended-upgrades
-    state: absent
-    purge: yes
-    autoremove: yes
 
 - name: check if the host is running on Hyper-V
   command: /usr/bin/systemd-detect-virt
@@ -47,6 +35,22 @@
   apt:
     name: 'linux-azure'
   when: virt.stdout == 'microsoft'
+
+- name: uninstall packages
+  become: yes
+  apt:
+    name:
+      - snapd
+      - nano
+      - unattended-upgrades
+    state: absent
+    purge: yes
+    autoremove: yes
+
+- name: upgrade all packages
+  become: yes
+  apt:
+    upgrade: dist
 
 - name: set locale
   become: yes
@@ -67,16 +71,16 @@
 
 - name: create workspace
   file:
-    path: '{{ ansible_env.HOME }}/workspace'
+    path: '{{ ansible_user_dir }}/workspace'
     state: directory
 
 - name: clone arosh/dotfiles
   git:
     repo: https://github.com/arosh/dotfiles.git
-    dest: '{{ ansible_env.HOME }}/workspace/dotfiles'
+    dest: '{{ ansible_user_dir }}/workspace/dotfiles'
 
 - name: link .vimrc
   file:
-    path: '{{ ansible_env.HOME }}/.vimrc'
+    path: '{{ ansible_user_dir }}/.vimrc'
     state: link
-    src: '{{ ansible_env.HOME }}/workspace/dotfiles/.vimrc.tiny'
+    src: '{{ ansible_user_dir }}/workspace/dotfiles/.vimrc.tiny'
