@@ -51,6 +51,7 @@
   become: yes
   apt:
     upgrade: dist
+  when: ansible_env['GITHUB_ACTIONS'] != 'true'
 
 - name: set locale
   become: yes
