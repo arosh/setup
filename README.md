@@ -2,7 +2,7 @@
 
 Setup localhost
 
-```text
+```shell
 cat > hosts <<EOF
 localhost ansible_connection=local ansible_python_interpreter=/usr/bin/python3
 EOF
@@ -13,7 +13,7 @@ make
 
 Setup remote hosts
 
-```text
+```shell
 cat > hosts <<EOF
 172.16.0.1 ansible_python_interpreter=/usr/bin/python3
 EOF
