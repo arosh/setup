@@ -52,7 +52,7 @@
   become: yes
   apt:
     upgrade: dist
-  when: not ansible_env['GITHUB_ACTIONS']
+  when: "'GITHUB_ACTIONS' not in ansible_env"
 
 - name: set locale
   become: yes
@@ -61,7 +61,7 @@
 - name: set timezone
   become: yes
   timezone:
-    name: UTC
+    name: Etc/UTC
 
 - name: allow users in sudo group to use sudo command without password
   become: yes
