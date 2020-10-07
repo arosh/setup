@@ -16,7 +16,6 @@
   become: yes
   apt:
     name:
-      - avahi-daemon
       - vim
       - htop
       - git
