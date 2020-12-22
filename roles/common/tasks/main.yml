@@ -19,7 +19,6 @@
       - vim
       - htop
       - git
-      - apt-file
 
 - name: check if the host is running on Hyper-V
   command: /usr/bin/systemd-detect-virt
