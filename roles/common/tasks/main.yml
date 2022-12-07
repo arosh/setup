@@ -28,11 +28,13 @@
 
 - debug: var=virt.stdout
 
-# https://docs.microsoft.com/ja-jp/windows-server/virtualization/hyper-v/supported-ubuntu-virtual-machines-on-hyper-v
-- name: install linux-azure on Hyper-V
+# hv-kvp-daemon や kv-vss-daemon などをインストールする
+# もっと最適化されたものを使いたい場合は linux-virtual, linux-cloud-tools-virtual を使うとモジュール類が削減できるが、そこまで頑張らなくてもよい
+# いつからか linux-image-virtual フレーバーは提供されず generic を使うことになったので、カーネルは変わらない
+- name: install hv-kvp for Hyper-V
   become: yes
   apt:
-    name: 'linux-azure'
+    name: 'linux-cloud-tools-generic'
   when: virt.stdout == 'microsoft'
 
 - name: uninstall packages
