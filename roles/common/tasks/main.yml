@@ -60,7 +60,7 @@
 
 - name: set timezone
   become: yes
-  timezone:
+  community.general.timezone:
     name: Etc/UTC
 
 - name: allow users in sudo group to use sudo command without password
