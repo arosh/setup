@@ -79,10 +79,24 @@
 - name: clone arosh/dotfiles
   git:
     repo: https://github.com/arosh/dotfiles.git
-    dest: '{{ ansible_user_dir }}/workspace/dotfiles'
+    dest: '{{ ansible_user_dir }}/workspace/github.com/arosh/dotfiles'
 
 - name: link .vimrc
   file:
     path: '{{ ansible_user_dir }}/.vimrc'
     state: link
-    src: '{{ ansible_user_dir }}/workspace/dotfiles/.vimrc.tiny'
+    src: 'workspace/github.com/arosh/dotfiles/.vimrc.tiny'
+
+- name: link dotfiles
+  file:
+    path: '{{ ansible_user_dir }}/{{ item }}'
+    state: link
+    src: 'workspace/github.com/arosh/dotfiles/{{ item }}'
+  loop:
+    - .digrc
+    - .gitconfig
+    - .gitignore
+    - .zlogin
+    - .zpreztorc
+    - .zshrc
+    - .zshrc.vcs_info
